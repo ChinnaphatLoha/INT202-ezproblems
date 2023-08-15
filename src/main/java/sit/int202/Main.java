@@ -70,15 +70,15 @@ public class Main {
         try {
             File file = new File("/Users/Ratchiiz/Desktop/jcfreview/src/main/java/sit/int202/data.txt"); // Replace with your file path
             Scanner scanner = new Scanner(file);
+            scanner.useDelimiter("[^a-zA-Z]+");
             Map<String, List<Integer>> wordFrequencyMap = new HashMap<>();
 
             int position = 1;
             while (scanner.hasNext()) {
                 String word = scanner.next();
-                word = word.replaceAll("[^a-zA-Z]", "");
 
                 if (!word.isEmpty()) {
-                    wordFrequencyMap.putIfAbsent(word, new ArrayList<>());
+                    wordFrequencyMap.putIfAbsent(word, new LinkedList<>());
                     wordFrequencyMap.get(word).add(position);
                 }
 
@@ -89,9 +89,12 @@ public class Main {
             sortedEntries.sort(Comparator.comparingInt(entry -> entry.getValue().size()));
 
             for (Map.Entry<String, List<Integer>> entry : sortedEntries) {
-                System.out.print(entry.getKey() + " (" + entry.getValue().size() + ") : ");
-                for (Integer location : entry.getValue()) {
-                    System.out.print("@" + location + " ");
+                String word = entry.getKey();
+                int frequency = entry.getValue().size();
+                List<Integer> positions = entry.getValue();
+                System.out.print(word + " (" + frequency + ") : ");
+                for (Integer p : positions) {
+                    System.out.print("@" + p + " ");
                 }
                 System.out.println();
             }
@@ -103,7 +106,7 @@ public class Main {
     }
 
     private static void problem4() {
-        int[] array = {8, 2, 3, 7, 8, 8, 7, 4, 7, 4, 4, 2, 2, 3, 8, 7, 7, 3, 3, 8};
+        int[] array = {8, 2, 3, 7, 8, 8, 7, 4, 7, 4, 4, 2, 2, 3, 8, 2, 7, 3, 3, 8};
 
         Map<Integer, List<Integer>> numberPositions = new HashMap<>();
         for (int i = 0; i < array.length; i++) {
