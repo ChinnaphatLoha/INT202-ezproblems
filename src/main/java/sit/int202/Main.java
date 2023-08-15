@@ -16,66 +16,55 @@ public class Main {
     }
 
     private static void problem1() {
-        List<Student> students = Arrays.asList(
-                new Student(10001, "Somsri", 3.25),
+        List<Student> students = Arrays.asList(new Student(10001, "Somsri", 3.25),
                 new Student(10002, "Somsak", 3.00),
                 new Student(10009, "Somchai", 3.26),
                 new Student(10007, "Somsiri", 3.25),
-                new Student(10037, "Sirisopaphan", 3.25)
-        );
+                new Student(10037, "Sirisopaphan", 3.25));
 
-        HashSet<Student> studentHashSet = new HashSet<>(students);
-        TreeSet<Student> studentTreeSet = new TreeSet<>(students);
+        Set<Student> studentHashSet = new HashSet<>(students);
+        Set<Student> studentTreeSet = new TreeSet<>(students);
 
         System.out.println("Unsorted HashSet:");
-        studentHashSet.forEach(System.out::println);
+        studentHashSet.forEach(s -> System.out.println(s + " -> " + s.hashCode()));
 
         System.out.println("\nUnsorted TreeSet:");
-        studentTreeSet.forEach(System.out::println);
+        studentTreeSet.forEach(s -> System.out.println(s + " -> " + s.hashCode()));
 
-        List<Student> sortedStudentsHashSet = new ArrayList<>(studentHashSet);
-        Collections.sort(sortedStudentsHashSet);
+        List<Student> sortedStudentsHashSet = studentHashSet.stream().sorted(Student.SORT_BY_GPAX_DESC).toList();
 
-        List<Student> sortedStudentsTreeSet = new ArrayList<>(studentTreeSet);
-        Collections.sort(sortedStudentsTreeSet);
-
+        List<Student> sortedStudentsTreeSet = studentTreeSet.stream().sorted(Student.SORT_BY_GPAX_DESC).toList();
 
         System.out.println("\nSorted HashSet:");
-        sortedStudentsHashSet.forEach(System.out::println);
+        for (Student student : sortedStudentsHashSet) {
+            System.out.println(student + " -> " + student.hashCode());
+        }
 
         System.out.println("\nSorted TreeSet:");
-        sortedStudentsTreeSet.forEach(System.out::println);
+        sortedStudentsTreeSet.forEach(s -> System.out.println(s + " -> " + s.hashCode()));
     }
 
     private static void problem2() {
-        int[] nums = {1,2,3,5,8,7,9,6,4};
+        int[] nums = {1, 2, 3, 5, 8, 7, 9, 6, 4};
         int target = 6;
 
-        HashMap<Integer, List<Integer>> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int complement = target - nums[i];
-            map.putIfAbsent(complement, new ArrayList<>());
-            map.get(complement).add(i);
-        }
-
+        HashSet<Integer> complements = new HashSet<>();
         boolean foundPairs = false;
 
         for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(nums[i])) {
-                List<Integer> complementIndices = map.get(nums[i]);
-                for (int complementIndex : complementIndices) {
-                    if (i < complementIndex) {
-                        System.out.println("Indices: " + Arrays.toString(new int[]{i, complementIndex}));
-                        foundPairs = true;
-                    }
-                }
+            int complement = target - nums[i];
+            if (complements.contains(nums[i])) {
+                System.out.println("Indices: " + Arrays.toString(new int[]{complement, i}));
+                foundPairs = true;
             }
+            complements.add(complement);
         }
 
         if (!foundPairs) {
             System.out.println("No solution found.");
         }
     }
+
 
     private static void problem3() {
         try {
