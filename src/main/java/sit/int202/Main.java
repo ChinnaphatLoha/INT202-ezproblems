@@ -48,16 +48,16 @@ public class Main {
         int[] nums = {1, 2, 3, 5, 8, 7, 9, 6, 4};
         int target = 6;
 
-        HashSet<Integer> complements = new HashSet<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
         boolean foundPairs = false;
 
         for (int i = 0; i < nums.length; i++) {
             int complement = target - nums[i];
-            if (complements.contains(nums[i])) {
-                System.out.println("Indices: " + Arrays.toString(new int[]{complement, i}));
+            if (map.containsKey(complement)) {
+                System.out.println("Indices: " + Arrays.toString(new int[]{map.get(complement), i}));
                 foundPairs = true;
             }
-            complements.add(complement);
+            map.put(nums[i], i);
         }
 
         if (!foundPairs) {
