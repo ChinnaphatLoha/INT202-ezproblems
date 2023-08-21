@@ -68,7 +68,7 @@ public class Main {
 
     private static void problem3() {
         try {
-            File file = new File("/Users/Ratchiiz/Desktop/jcfreview/src/main/java/sit/int202/data.txt"); // Replace with your file path
+            File file = new File("/Users/Ratchiiz/Desktop/jcfreview/src/main/java/sit/int202/data.txt");
             Scanner scanner = new Scanner(file);
             scanner.useDelimiter("[^a-zA-Z]+");
             Map<String, List<Integer>> wordFrequencyMap = new HashMap<>();
@@ -92,6 +92,7 @@ public class Main {
                 String word = entry.getKey();
                 int frequency = entry.getValue().size();
                 List<Integer> positions = entry.getValue();
+
                 System.out.print(word + " (" + frequency + ") : ");
                 for (Integer p : positions) {
                     System.out.print("@" + p + " ");
